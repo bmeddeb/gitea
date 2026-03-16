@@ -619,7 +619,8 @@ var (
 		"swagger.v1.json",
 
 		"ghost",         // reserved name for deleted users (id: -1)
-		"gitea-actions", // gitea builtin user (id: -2)
+		"gitea-actions", // gitea builtin user (id: -2), kept for backward compatibility
+		"gitfx-actions", // gitfx builtin user (id: -2)
 	}
 
 	// These names are reserved for user accounts: user's keys, user's rss feed, user's avatar, etc.

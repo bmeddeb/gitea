@@ -20,6 +20,7 @@ func TestValidateName(t *testing.T) {
 		{"1FOO", false},
 		{"giteA_xx", false},
 		{"githuB_xx", false},
+		{"gitfX_xx", false},
 		{"cI", false},
 	}
 	for _, c := range cases {

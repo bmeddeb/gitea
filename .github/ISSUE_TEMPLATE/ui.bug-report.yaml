@@ -17,7 +17,7 @@ body:
         5. Please give all relevant information below for bug reports, because
            incomplete details will be handled as an invalid report.
         6. In particular it's really important to provide pertinent logs. If you are certain that this is a javascript
-           error, show us the javascript console. If the error appears to relate to Gitea the server you must also give us
+           error, show us the javascript console. If the error appears to relate to GitFX the server you must also give us
            DEBUG level logs. (See https://docs.gitea.com/administration/logging-config#collecting-logs-for-help)
   - type: textarea
     id: description
@@ -25,7 +25,7 @@ body:
       label: Description
       description: |
         Please provide a description of your issue here, with a URL if you were able to reproduce the issue (see below)
-        If using a proxy or a CDN (e.g. CloudFlare) in front of gitea, please disable the proxy/CDN fully and connect to gitea directly to confirm the issue still persists without those services.
+        If using a proxy or a CDN (e.g. CloudFlare) in front of GitFX, please disable the proxy/CDN fully and connect to GitFX directly to confirm the issue still persists without those services.
   - type: textarea
     id: screenshots
     attributes:
@@ -36,17 +36,17 @@ body:
   - type: input
     id: gitea-ver
     attributes:
-      label: Gitea Version
-      description: Gitea version (or commit reference) your instance is running
+      label: GitFX Version
+      description: GitFX version (or commit reference) your instance is running
     validations:
       required: true
   - type: dropdown
     id: can-reproduce
     attributes:
-      label: Can you reproduce the bug on the Gitea demo site?
+      label: Can you reproduce the bug on the GitFX demo site?
       description: |
         If so, please provide a URL in the Description field
-        URL of Gitea demo: https://demo.gitea.com
+        URL of GitFX demo: https://demo.gitea.com
       options:
         - "Yes"
         - "No"
@@ -56,11 +56,11 @@ body:
     id: os-ver
     attributes:
       label: Operating System
-      description: The operating system you are using to access Gitea
+      description: The operating system you are using to access GitFX
   - type: input
     id: browser-ver
     attributes:
       label: Browser Version
-      description: The browser and version that you are using to access Gitea
+      description: The browser and version that you are using to access GitFX
     validations:
       required: true

@@ -167,6 +167,7 @@ func DownloadHandler(ctx *context.Context) {
 	contentLengthStr := strconv.FormatInt(contentLength, 10)
 	ctx.Resp.Header().Set("Content-Length", contentLengthStr)
 	ctx.Resp.Header().Set("X-Gitea-LFS-Content-Length", contentLengthStr) // we need this header to make sure it won't be affected by reverse proxy or compression
+	ctx.Resp.Header().Set("X-GitFX-LFS-Content-Length", contentLengthStr)
 	ctx.Resp.Header().Set("Content-Type", "application/octet-stream")
 
 	filename := ctx.PathParam("filename")

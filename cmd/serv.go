@@ -87,7 +87,7 @@ func fail(ctx context.Context, userMessage, logMsgFmt string, args ...any) error
 	if logMsgFmt != "" {
 		logMsg := fmt.Sprintf(logMsgFmt, args...)
 		if !setting.IsProd {
-			_, _ = fmt.Fprintln(os.Stderr, "Gitea:", logMsg)
+			_, _ = fmt.Fprintln(os.Stderr, "GitFX:", logMsg)
 		}
 		if unicode.IsPunct(rune(userMessage[len(userMessage)-1])) {
 			logMsg = userMessage + " " + logMsg
@@ -136,7 +136,7 @@ func runServ(ctx context.Context, c *cli.Command) error {
 	setup(ctx, c.Bool("debug"))
 
 	if setting.SSH.Disabled {
-		println("Gitea: SSH has been disabled")
+		println("GitFX: SSH has been disabled")
 		return nil
 	}
 
@@ -170,13 +170,13 @@ func runServ(ctx context.Context, c *cli.Command) error {
 		}
 		switch key.Type {
 		case asymkey_model.KeyTypeDeploy:
-			println("Hi there! You've successfully authenticated with the deploy key named " + key.Name + ", but Gitea does not provide shell access.")
+			println("Hi there! You've successfully authenticated with the deploy key named " + key.Name + ", but GitFX does not provide shell access.")
 		case asymkey_model.KeyTypePrincipal:
-			println("Hi there! You've successfully authenticated with the principal " + key.Content + ", but Gitea does not provide shell access.")
+			println("Hi there! You've successfully authenticated with the principal " + key.Content + ", but GitFX does not provide shell access.")
 		default:
-			println("Hi there, " + user.Name + "! You've successfully authenticated with the key named " + key.Name + ", but Gitea does not provide shell access.")
+			println("Hi there, " + user.Name + "! You've successfully authenticated with the key named " + key.Name + ", but GitFX does not provide shell access.")
 		}
-		println("If this is unexpected, please log in with password and setup Gitea under another user.")
+		println("If this is unexpected, please log in with password and setup GitFX under another user.")
 		return nil
 	} else if c.Bool("debug") {
 		log.Debug("SSH_ORIGINAL_COMMAND: %s", os.Getenv("SSH_ORIGINAL_COMMAND"))
@@ -316,6 +316,7 @@ func runServ(ctx context.Context, c *cli.Command) error {
 	command.Stderr = os.Stderr
 	command.Env = append(command.Env, os.Environ()...)
 	command.Env = append(command.Env,
+		// Set new GITFX_ env vars
 		repo_module.EnvRepoIsWiki+"="+strconv.FormatBool(results.IsWiki),
 		repo_module.EnvRepoName+"="+results.RepoName,
 		repo_module.EnvRepoUsername+"="+results.OwnerName,
@@ -327,6 +328,18 @@ func runServ(ctx context.Context, c *cli.Command) error {
 		repo_module.EnvDeployKeyID+"="+strconv.FormatInt(results.DeployKeyID, 10),
 		repo_module.EnvKeyID+"="+strconv.FormatInt(results.KeyID, 10),
 		repo_module.EnvAppURL+"="+setting.AppURL,
+		// Also set deprecated GITEA_ env vars for backward compatibility with custom hooks
+		repo_module.EnvRepoIsWikiLegacy+"="+strconv.FormatBool(results.IsWiki),
+		repo_module.EnvRepoNameLegacy+"="+results.RepoName,
+		repo_module.EnvRepoUsernameLegacy+"="+results.OwnerName,
+		repo_module.EnvPusherNameLegacy+"="+results.UserName,
+		repo_module.EnvPusherEmailLegacy+"="+results.UserEmail,
+		repo_module.EnvPusherIDLegacy+"="+strconv.FormatInt(results.UserID, 10),
+		repo_module.EnvRepoIDLegacy+"="+strconv.FormatInt(results.RepoID, 10),
+		repo_module.EnvPRIDLegacy+"="+strconv.Itoa(0),
+		repo_module.EnvDeployKeyIDLegacy+"="+strconv.FormatInt(results.DeployKeyID, 10),
+		repo_module.EnvKeyIDLegacy+"="+strconv.FormatInt(results.KeyID, 10),
+		repo_module.EnvAppURLLegacy+"="+setting.AppURL,
 	)
 	// to avoid breaking, here only use the minimal environment variables for the "gitea serv" command.
 	// it could be re-considered whether to use the same git.CommonGitCmdEnvs() as "git" command later.

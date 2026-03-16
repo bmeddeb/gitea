@@ -152,11 +152,11 @@ func httpBase(ctx *context.Context, optGitService ...string) *serviceHandler {
 		if !ctx.IsSigned {
 			// TODO: support digit auth - which would be Authorization header with digit
 			if setting.OAuth2.Enabled {
-				// `Basic realm="Gitea"` tells the GCM to use builtin OAuth2 application: https://github.com/git-ecosystem/git-credential-manager/pull/1442
-				ctx.Resp.Header().Set("WWW-Authenticate", `Basic realm="Gitea"`)
+				// `Basic realm="GitFX"` tells the GCM to use builtin OAuth2 application: https://github.com/git-ecosystem/git-credential-manager/pull/1442
+				ctx.Resp.Header().Set("WWW-Authenticate", `Basic realm="GitFX"`)
 			} else {
 				// If OAuth2 is disabled, then use another realm to avoid GCM OAuth2 attempt
-				ctx.Resp.Header().Set("WWW-Authenticate", `Basic realm="Gitea (Basic Auth)"`)
+				ctx.Resp.Header().Set("WWW-Authenticate", `Basic realm="GitFX (Basic Auth)"`)
 			}
 			ctx.HTTPError(http.StatusUnauthorized)
 			return nil
@@ -185,11 +185,18 @@ func httpBase(ctx *context.Context, optGitService ...string) *serviceHandler {
 		}
 
 		environ = []string{
+			// Set new GITFX_ env vars
 			repo_module.EnvRepoUsername + "=" + username,
 			repo_module.EnvRepoName + "=" + reponame,
 			repo_module.EnvPusherName + "=" + ctx.Doer.Name,
 			repo_module.EnvPusherID + fmt.Sprintf("=%d", ctx.Doer.ID),
 			repo_module.EnvAppURL + "=" + setting.AppURL,
+			// Also set deprecated GITEA_ env vars for backward compatibility with custom hooks
+			repo_module.EnvRepoUsernameLegacy + "=" + username,
+			repo_module.EnvRepoNameLegacy + "=" + reponame,
+			repo_module.EnvPusherNameLegacy + "=" + ctx.Doer.Name,
+			repo_module.EnvPusherIDLegacy + fmt.Sprintf("=%d", ctx.Doer.ID),
+			repo_module.EnvAppURLLegacy + "=" + setting.AppURL,
 		}
 
 		if repoExist {
@@ -209,7 +216,10 @@ func httpBase(ctx *context.Context, optGitService ...string) *serviceHandler {
 					ctx.PlainText(http.StatusNotFound, "Repository not found")
 					return nil
 				}
-				environ = append(environ, fmt.Sprintf("%s=%d", repo_module.EnvActionPerm, p.UnitAccessMode(unitType)))
+				environ = append(environ,
+					fmt.Sprintf("%s=%d", repo_module.EnvActionPerm, p.UnitAccessMode(unitType)),
+					fmt.Sprintf("%s=%d", repo_module.EnvActionPermLegacy, p.UnitAccessMode(unitType)),
+				)
 			} else {
 				p, err := access_model.GetUserRepoPermission(ctx, repo, ctx.Doer)
 				if err != nil {
@@ -230,13 +240,22 @@ func httpBase(ctx *context.Context, optGitService ...string) *serviceHandler {
 		}
 
 		if !ctx.Doer.KeepEmailPrivate {
-			environ = append(environ, repo_module.EnvPusherEmail+"="+ctx.Doer.Email)
+			environ = append(environ,
+				repo_module.EnvPusherEmail+"="+ctx.Doer.Email,
+				repo_module.EnvPusherEmailLegacy+"="+ctx.Doer.Email,
+			)
 		}
 
 		if isWiki {
-			environ = append(environ, repo_module.EnvRepoIsWiki+"=true")
+			environ = append(environ,
+				repo_module.EnvRepoIsWiki+"=true",
+				repo_module.EnvRepoIsWikiLegacy+"=true",
+			)
 		} else {
-			environ = append(environ, repo_module.EnvRepoIsWiki+"=false")
+			environ = append(environ,
+				repo_module.EnvRepoIsWiki+"=false",
+				repo_module.EnvRepoIsWikiLegacy+"=false",
+			)
 		}
 	}
 
@@ -286,7 +305,10 @@ func httpBase(ctx *context.Context, optGitService ...string) *serviceHandler {
 		}
 	}
 
-	environ = append(environ, repo_module.EnvRepoID+fmt.Sprintf("=%d", repo.ID))
+	environ = append(environ,
+		repo_module.EnvRepoID+fmt.Sprintf("=%d", repo.ID),
+		repo_module.EnvRepoIDLegacy+fmt.Sprintf("=%d", repo.ID),
+	)
 
 	return &serviceHandler{serviceType, repo, isWiki, environ}
 }

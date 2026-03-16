@@ -21,8 +21,8 @@ function extractRootVars(css: string) {
 }
 
 const vars = extractRootVars([
-  readFileSync(new URL('web_src/css/themes/theme-gitea-light.css', import.meta.url), 'utf8'),
-  readFileSync(new URL('web_src/css/themes/theme-gitea-dark.css', import.meta.url), 'utf8'),
+  readFileSync(new URL('web_src/css/themes/theme-gitfx-light.css', import.meta.url), 'utf8'),
+  readFileSync(new URL('web_src/css/themes/theme-gitfx-dark.css', import.meta.url), 'utf8'),
 ].join('\n'));
 
 export default {

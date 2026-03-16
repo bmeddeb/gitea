@@ -23,21 +23,21 @@ body:
       label: Description
       description: |
         Please provide a description of your issue here, with a URL if you were able to reproduce the issue (see below)
-        If you are using a proxy or a CDN (e.g. Cloudflare) in front of Gitea, please disable the proxy/CDN fully and access Gitea directly to confirm the issue still persists without those services.
+        If you are using a proxy or a CDN (e.g. Cloudflare) in front of GitFX, please disable the proxy/CDN fully and access GitFX directly to confirm the issue still persists without those services.
   - type: input
     id: gitea-ver
     attributes:
-      label: Gitea Version
-      description: Gitea version (or commit reference) of your instance
+      label: GitFX Version
+      description: GitFX version (or commit reference) of your instance
     validations:
       required: true
   - type: dropdown
     id: can-reproduce
     attributes:
-      label: Can you reproduce the bug on the Gitea demo site?
+      label: Can you reproduce the bug on the GitFX demo site?
       description: |
         If so, please provide a URL in the Description field
-        URL of Gitea demo: https://demo.gitea.com
+        URL of GitFX demo: https://demo.gitea.com
       options:
         - "Yes"
         - "No"
@@ -68,14 +68,14 @@ body:
     id: os-ver
     attributes:
       label: Operating System
-      description: The operating system you are using to run Gitea
+      description: The operating system you are using to run GitFX
   - type: textarea
     id: run-info
     attributes:
-      label: How are you running Gitea?
+      label: How are you running GitFX?
       description: |
-        Please include information on whether you built Gitea yourself, used one of our downloads, are using https://demo.gitea.com or are using some other package
-        Please also tell us how you are running Gitea, e.g. if it is being run from docker, a command-line, systemd etc.
+        Please include information on whether you built GitFX yourself, used one of our downloads, or are using some other package
+        Please also tell us how you are running GitFX, e.g. if it is being run from docker, a command-line, systemd etc.
         If you are using a package or systemd tell us what distribution you are using
     validations:
       required: true

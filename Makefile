@@ -23,7 +23,7 @@ XGO_PACKAGE ?= src.techknowlogick.com/xgo@latest
 GOVULNCHECK_PACKAGE ?= golang.org/x/vuln/cmd/govulncheck@v1
 ACTIONLINT_PACKAGE ?= github.com/rhysd/actionlint/cmd/actionlint@v1.7.11
 
-DOCKER_IMAGE ?= gitea/gitea
+DOCKER_IMAGE ?= gitfx/gitfx
 DOCKER_TAG ?= latest
 DOCKER_REF := $(DOCKER_IMAGE):$(DOCKER_TAG)
 
@@ -52,12 +52,12 @@ else ifeq ($(patsubst Windows%,Windows,$(OS)),Windows)
 endif
 ifeq ($(IS_WINDOWS),yes)
 	GOFLAGS := -v -buildmode=exe
-	EXECUTABLE ?= gitea.exe
-	EXECUTABLE_E2E ?= gitea-e2e.exe
+	EXECUTABLE ?= gitfx.exe
+	EXECUTABLE_E2E ?= gitfx-e2e.exe
 else
 	GOFLAGS := -v
-	EXECUTABLE ?= gitea
-	EXECUTABLE_E2E ?= gitea-e2e
+	EXECUTABLE ?= gitfx
+	EXECUTABLE_E2E ?= gitfx-e2e
 endif
 
 ifeq ($(shell sed --version 2>/dev/null | grep -q GNU && echo gnu),gnu)
@@ -162,11 +162,11 @@ SWAGGER_SPEC_INPUT := templates/swagger/v1_input.json
 SWAGGER_EXCLUDE := code.gitea.io/sdk
 
 TEST_MYSQL_HOST ?= mysql:3306
-TEST_MYSQL_DBNAME ?= testgitea
+TEST_MYSQL_DBNAME ?= testgitfx
 TEST_MYSQL_USERNAME ?= root
 TEST_MYSQL_PASSWORD ?=
 TEST_PGSQL_HOST ?= pgsql:5432
-TEST_PGSQL_DBNAME ?= testgitea
+TEST_PGSQL_DBNAME ?= testgitfx
 TEST_PGSQL_USERNAME ?= postgres
 TEST_PGSQL_PASSWORD ?= postgres
 TEST_PGSQL_SCHEMA ?= gtestschema
@@ -193,7 +193,7 @@ help: Makefile ## print Makefile help information.
 .PHONY: git-check
 git-check:
 	@if git lfs >/dev/null 2>&1 ; then : ; else \
-		echo "Gitea requires git with lfs support to run tests." ; \
+		echo "GitFX requires git with lfs support to run tests." ; \
 		exit 1; \
 	fi
 
@@ -208,7 +208,7 @@ clean: ## delete backend and integration files
 		tests/integration/gitea-integration-* \
 		tests/integration/indexers-* \
 		tests/sqlite.ini tests/mysql.ini tests/pgsql.ini tests/mssql.ini man/ \
-		tests/e2e/gitea-e2e-*/ \
+		tests/e2e/gitfx-e2e-*/ \
 		tests/e2e/indexers-*/ \
 		tests/e2e/reports/ tests/e2e/test-artifacts/ tests/e2e/test-snapshots/
 

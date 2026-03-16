@@ -131,10 +131,15 @@ func addDefaultHeaders(req *http.Request, secret []byte, w *webhook_model.Webhoo
 	}
 
 	req.Header.Add("X-Gitea-Delivery", t.UUID)
+	req.Header.Add("X-GitFX-Delivery", t.UUID)
 	req.Header.Add("X-Gitea-Event", event)
+	req.Header.Add("X-GitFX-Event", event)
 	req.Header.Add("X-Gitea-Event-Type", eventType)
+	req.Header.Add("X-GitFX-Event-Type", eventType)
 	req.Header.Add("X-Gitea-Signature", signatureSHA256)
+	req.Header.Add("X-GitFX-Signature", signatureSHA256)
 	req.Header.Add("X-Gitea-Hook-Installation-Target-Type", targetType)
+	req.Header.Add("X-GitFX-Hook-Installation-Target-Type", targetType)
 	req.Header.Add("X-Gogs-Delivery", t.UUID)
 	req.Header.Add("X-Gogs-Event", event)
 	req.Header.Add("X-Gogs-Event-Type", eventType)

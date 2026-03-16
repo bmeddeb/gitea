@@ -28,7 +28,7 @@ RUN go mod download
 COPY --exclude=.git/ . .
 COPY --from=frontend-build /src/public/assets public/assets
 
-# Build gitea, .git mount is required for version data
+# Build gitfx, .git mount is required for version data
 RUN --mount=type=cache,target="/root/.cache/go-build" \
     --mount=type=bind,source=".git/",target=".git/" \
     make backend
@@ -37,9 +37,9 @@ COPY docker/rootless /tmp/local
 
 # Set permissions for builds that made under windows which strips the executable bit from file
 RUN chmod 755 /tmp/local/usr/local/bin/* \
-              /go/src/code.gitea.io/gitea/gitea
+              /go/src/code.gitea.io/gitea/gitfx
 
-FROM docker.io/library/alpine:3.23 AS gitea-rootless
+FROM docker.io/library/alpine:3.23 AS gitfx-rootless
 
 EXPOSE 2222 3000
 
@@ -58,30 +58,30 @@ RUN addgroup \
     git && \
   adduser \
     -S -H -D \
-    -h /var/lib/gitea/git \
+    -h /var/lib/gitfx/git \
     -s /bin/bash \
     -u 1000 \
     -G git \
     git
 
-RUN mkdir -p /var/lib/gitea /etc/gitea
-RUN chown git:git /var/lib/gitea /etc/gitea
+RUN mkdir -p /var/lib/gitfx /etc/gitfx
+RUN chown git:git /var/lib/gitfx /etc/gitfx
 
 COPY --from=build-env /tmp/local /
-COPY --from=build-env --chown=root:root /go/src/code.gitea.io/gitea/gitea /app/gitea/gitea
+COPY --from=build-env --chown=root:root /go/src/code.gitea.io/gitea/gitfx /app/gitfx/gitfx
 
 # git:git
 USER 1000:1000
-ENV GITEA_WORK_DIR=/var/lib/gitea
-ENV GITEA_CUSTOM=/var/lib/gitea/custom
-ENV GITEA_TEMP=/tmp/gitea
-ENV TMPDIR=/tmp/gitea
+ENV GITEA_WORK_DIR=/var/lib/gitfx
+ENV GITEA_CUSTOM=/var/lib/gitfx/custom
+ENV GITEA_TEMP=/tmp/gitfx
+ENV TMPDIR=/tmp/gitfx
 
 # TODO add to docs the ability to define the ini to load (useful to test and revert a config)
-ENV GITEA_APP_INI=/etc/gitea/app.ini
-ENV HOME="/var/lib/gitea/git"
-VOLUME ["/var/lib/gitea", "/etc/gitea"]
-WORKDIR /var/lib/gitea
+ENV GITEA_APP_INI=/etc/gitfx/app.ini
+ENV HOME="/var/lib/gitfx/git"
+VOLUME ["/var/lib/gitfx", "/etc/gitfx"]
+WORKDIR /var/lib/gitfx
 
 # HINT: HEALTH-CHECK-ENDPOINT: don't use HEALTHCHECK, search this hint keyword for more information
 ENTRYPOINT ["/usr/bin/dumb-init", "--", "/usr/local/bin/docker-entrypoint.sh"]

@@ -59,7 +59,7 @@ func reqPackageAccess(accessMode perm.AccessMode) func(ctx *context.Context) {
 					}
 				}
 				if !scopeMatched {
-					ctx.Resp.Header().Set("WWW-Authenticate", `Basic realm="Gitea Package API"`)
+					ctx.Resp.Header().Set("WWW-Authenticate", `Basic realm="GitFX Package API"`)
 					ctx.HTTPError(http.StatusUnauthorized, "reqPackageAccess", "user should have specific permission or be a site admin")
 					return
 				}
@@ -81,7 +81,7 @@ func reqPackageAccess(accessMode perm.AccessMode) func(ctx *context.Context) {
 		}
 
 		if ctx.Package.AccessMode < accessMode && !ctx.IsUserSiteAdmin() {
-			ctx.Resp.Header().Set("WWW-Authenticate", `Basic realm="Gitea Package API"`)
+			ctx.Resp.Header().Set("WWW-Authenticate", `Basic realm="GitFX Package API"`)
 			ctx.HTTPError(http.StatusUnauthorized, "reqPackageAccess", "user should have specific permission or be a site admin")
 			return
 		}

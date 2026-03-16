@@ -47,6 +47,7 @@ func (g *giteaLockBackend) Create(path, refname string) (transfer.Lock, error) {
 	headers := map[string]string{
 		headerAuthorization:     g.authToken,
 		headerGiteaInternalAuth: g.internalAuth,
+		headerGitFXInternalAuth: g.internalAuth,
 		headerAccept:            mimeGitLFS,
 		headerContentType:       mimeGitLFS,
 	}
@@ -98,6 +99,7 @@ func (g *giteaLockBackend) Unlock(lock transfer.Lock) error {
 	headers := map[string]string{
 		headerAuthorization:     g.authToken,
 		headerGiteaInternalAuth: g.internalAuth,
+		headerGitFXInternalAuth: g.internalAuth,
 		headerAccept:            mimeGitLFS,
 		headerContentType:       mimeGitLFS,
 	}
@@ -180,6 +182,7 @@ func (g *giteaLockBackend) queryLocks(v url.Values) ([]transfer.Lock, string, er
 	headers := map[string]string{
 		headerAuthorization:     g.authToken,
 		headerGiteaInternalAuth: g.internalAuth,
+		headerGitFXInternalAuth: g.internalAuth,
 		headerAccept:            mimeGitLFS,
 		headerContentType:       mimeGitLFS,
 	}

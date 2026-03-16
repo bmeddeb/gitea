@@ -1,0 +1,7 @@
+@import "./theme-gitfx-light.css" (prefers-color-scheme: light);
+@import "./theme-gitfx-dark.css" (prefers-color-scheme: dark);
+
+gitea-theme-meta-info {
+  --theme-display-name: "Auto";
+  --theme-color-scheme: "auto";
+}

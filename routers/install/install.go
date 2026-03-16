@@ -187,7 +187,7 @@ func checkDatabase(ctx *context.Context, form *forms.InstallForm) bool {
 	}
 
 	if hasPostInstallationUser || dbMigrationVersion > 0 {
-		log.Info("Gitea will be installed in a database with: hasPostInstallationUser=%v, dbMigrationVersion=%v", hasPostInstallationUser, dbMigrationVersion)
+		log.Info("GitFX will be installed in a database with: hasPostInstallationUser=%v, dbMigrationVersion=%v", hasPostInstallationUser, dbMigrationVersion)
 	}
 
 	return true

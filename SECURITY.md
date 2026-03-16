@@ -1,6 +1,6 @@
 # Reporting security issues
 
-The Gitea maintainers take security seriously.
+The GitFX maintainers take security seriously.
 
 If you discover a security issue, please bring it to their attention right away!
 
@@ -24,7 +24,7 @@ Key Size: 4096/4096
 Fingerprint: 3DE0 3D1E 144A 7F06 9359 99DC AAFD 2381 6FCD 2D5B
 ```
 
-UserID: Gitea Security <security@gitea.io>
+UserID: GitFX Security <security@gitea.io>
 
 ```
 -----BEGIN PGP PUBLIC KEY BLOCK-----

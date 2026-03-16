@@ -195,7 +195,7 @@ jobs:
       # no frontend build here as backend should be able to build
       # even without any frontend files
       - run: make deps-backend
-      - run: go build -o gitea_no_gcc # test if build succeeds without the sqlite tag
+      - run: go build -o gitfx_no_gcc # test if build succeeds without the sqlite tag
       - name: build-backend-arm64
         run: make backend # test cross compile
         env:
@@ -203,13 +203,13 @@ jobs:
           GOARCH: arm64
           TAGS: bindata gogit
       - name: build-backend-windows
-        run: go build -o gitea_windows
+        run: go build -o gitfx_windows
         env:
           GOOS: windows
           GOARCH: amd64
           TAGS: bindata gogit
       - name: build-backend-386
-        run: go build -o gitea_linux_386 # test if compatible with 32 bit
+        run: go build -o gitfx_linux_386 # test if compatible with 32 bit
         env:
           GOOS: linux
           GOARCH: 386

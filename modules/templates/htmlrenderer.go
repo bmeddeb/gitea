@@ -70,8 +70,8 @@ func processStartupTemplateError(err error) {
 		return
 	}
 	if setting.IsProd || setting.IsInTesting {
-		// in prod mode, Gitea must have correct templates to run
-		log.Fatal("Gitea can't run with template errors: %v", err)
+		// in prod mode, GitFX must have correct templates to run
+		log.Fatal("GitFX can't run with template errors: %v", err)
 	}
 	// in dev mode, do not need to really exit, because the template errors could be fixed by developer soon and the templates get reloaded
 	log.Error("There are template errors but Gitea continues to run in dev mode: %v", err)

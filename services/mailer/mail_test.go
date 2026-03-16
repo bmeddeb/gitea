@@ -301,14 +301,23 @@ func TestGenerateAdditionalHeadersForIssue(t *testing.T) {
 		"List-ID":                   "user2/repo1 <repo1.user2.localhost>",
 		"List-Archive":              "<https://try.gitea.io/user2/repo1>",
 		"X-Gitea-Reason":            "dummy-reason",
+		"X-GitFX-Reason":            "dummy-reason",
 		"X-Gitea-Sender":            "user2",
+		"X-GitFX-Sender":            "user2",
 		"X-Gitea-Recipient":         "test",
+		"X-GitFX-Recipient":         "test",
 		"X-Gitea-Recipient-Address": "test@gitea.com",
+		"X-GitFX-Recipient-Address": "test@gitea.com",
 		"X-Gitea-Repository":        "repo1",
+		"X-GitFX-Repository":        "repo1",
 		"X-Gitea-Repository-Path":   "user2/repo1",
+		"X-GitFX-Repository-Path":   "user2/repo1",
 		"X-Gitea-Repository-Link":   "https://try.gitea.io/user2/repo1",
+		"X-GitFX-Repository-Link":   "https://try.gitea.io/user2/repo1",
 		"X-Gitea-Issue-ID":          "1",
+		"X-GitFX-Issue-ID":          "1",
 		"X-Gitea-Issue-Link":        "https://try.gitea.io/user2/repo1/issues/1",
+		"X-GitFX-Issue-Link":        "https://try.gitea.io/user2/repo1/issues/1",
 	}
 
 	for key, value := range expected {

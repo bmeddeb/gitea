@@ -45,7 +45,7 @@ func testActionsJobTokenAccess(u *url.URL, isFork bool) func(t *testing.T) {
 		dstPath := t.TempDir()
 
 		u.Path = context.GitPath()
-		u.User = url.UserPassword("gitea-actions", task.Token)
+		u.User = url.UserPassword("gitfx-actions", task.Token)
 
 		t.Run("Git Clone", doGitClone(dstPath, u))
 
@@ -71,7 +71,7 @@ func testActionsJobTokenAccess(u *url.URL, isFork bool) func(t *testing.T) {
 
 		t.Run("Fail to Create Organization", doAPICreateOrganization(context, &structs.CreateOrgOption{
 			UserName: "actions",
-			FullName: "Gitea Actions",
+			FullName: "GitFX Actions",
 		}))
 	}
 }
@@ -99,7 +99,7 @@ func TestActionsJobTokenAccessLFS(t *testing.T) {
 			dstPath := t.TempDir()
 
 			u.Path = httpContext.GitPath()
-			u.User = url.UserPassword("gitea-actions", task.Token)
+			u.User = url.UserPassword("gitfx-actions", task.Token)
 
 			t.Run("Clone", doGitClone(dstPath, u))
 

@@ -32,7 +32,10 @@ import (
 	files_service "code.gitea.io/gitea/services/repository/files"
 )
 
-const giteaObjectTypeHeader = "X-Gitea-Object-Type"
+const (
+	giteaObjectTypeHeader = "X-Gitea-Object-Type"
+	gitfxObjectTypeHeader = "X-GitFX-Object-Type"
+)
 
 // GetRawFile get a file by path on a repository
 func GetRawFile(ctx *context.APIContext) {
@@ -80,7 +83,9 @@ func GetRawFile(ctx *context.APIContext) {
 		return
 	}
 
-	ctx.RespHeader().Set(giteaObjectTypeHeader, string(files_service.GetObjectTypeFromTreeEntry(entry)))
+	objType := string(files_service.GetObjectTypeFromTreeEntry(entry))
+	ctx.RespHeader().Set(giteaObjectTypeHeader, objType)
+	ctx.RespHeader().Set(gitfxObjectTypeHeader, objType)
 
 	if err := common.ServeBlob(ctx.Base, ctx.Repo.Repository, ctx.Repo.TreePath, blob, lastModified); err != nil {
 		ctx.APIErrorInternal(err)
@@ -133,7 +138,9 @@ func GetRawFileOrLFS(ctx *context.APIContext) {
 		return
 	}
 
-	ctx.RespHeader().Set(giteaObjectTypeHeader, string(files_service.GetObjectTypeFromTreeEntry(entry)))
+	objType2 := string(files_service.GetObjectTypeFromTreeEntry(entry))
+	ctx.RespHeader().Set(giteaObjectTypeHeader, objType2)
+	ctx.RespHeader().Set(gitfxObjectTypeHeader, objType2)
 
 	// LFS Pointer files are at most 1024 bytes - so any blob greater than 1024 bytes cannot be an LFS file
 	if blob.Size() > lfs.MetaFileMaxSize {

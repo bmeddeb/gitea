@@ -28,7 +28,7 @@ jobs:
         ports:
           - "5432:5432"
       ldap:
-        image: gitea/test-openldap:latest
+        image: gitea/test-openldap:latest # upstream Gitea test image
         ports:
           - "389:389"
           - "636:636"
@@ -166,7 +166,7 @@ jobs:
         image: bitnamilegacy/mysql:8.0
         env:
           ALLOW_EMPTY_PASSWORD: true
-          MYSQL_DATABASE: testgitea
+          MYSQL_DATABASE: testgitfx
         ports:
           - "3306:3306"
         options: >-

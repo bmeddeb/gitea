@@ -108,7 +108,7 @@ export function easyMDEToolbarActions(easyMde: typeof EasyMDE, editor: ComboMark
         cm.replaceSelection(`\n- [ ] ${cm.getSelection()}`);
         cm.focus();
       },
-      icon: svg('gitea-empty-checkbox'),
+      icon: svg('gitfx-empty-checkbox'),
       title: 'Add Checkbox (empty)',
     },
     'gitea-checkbox-checked': {

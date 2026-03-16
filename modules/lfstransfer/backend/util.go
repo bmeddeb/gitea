@@ -24,6 +24,7 @@ const (
 	headerAccept            = "Accept"
 	headerAuthorization     = "Authorization"
 	headerGiteaInternalAuth = "X-Gitea-Internal-Auth"
+	headerGitFXInternalAuth = "X-GitFX-Internal-Auth"
 	headerContentType       = "Content-Type"
 	headerContentLength     = "Content-Length"
 )

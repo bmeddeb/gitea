@@ -406,7 +406,10 @@ func doMergeAndPush(ctx context.Context, pr *issues_model.PullRequest, doer *use
 		pr.Index,
 	)
 
-	mergeCtx.env = append(mergeCtx.env, repo_module.EnvPushTrigger+"="+string(pushTrigger))
+	mergeCtx.env = append(mergeCtx.env,
+		repo_module.EnvPushTrigger+"="+string(pushTrigger),
+		repo_module.EnvPushTriggerLegacy+"="+string(pushTrigger),
+	)
 	pushCmd := gitcmd.NewCommand("push", "origin").AddDynamicArguments(tmpRepoBaseBranch + ":" + git.BranchPrefix + pr.BaseBranch)
 
 	// Push back to upstream.

@@ -14,7 +14,8 @@ import (
 )
 
 const (
-	EnvConfigKeyPrefixGitea = "GITEA__"
+	EnvConfigKeyPrefixGitFX = "GITFX__"
+	EnvConfigKeyPrefixGitea = "GITEA__" // Deprecated: use GITFX__ prefix instead
 	EnvConfigKeySuffixFile  = "__FILE"
 )
 
@@ -24,7 +25,7 @@ var escapeRegex = regexp.MustCompile(escapeRegexpString)
 
 func CollectEnvConfigKeys() (keys []string) {
 	for _, env := range os.Environ() {
-		if strings.HasPrefix(env, EnvConfigKeyPrefixGitea) {
+		if strings.HasPrefix(env, EnvConfigKeyPrefixGitFX) || strings.HasPrefix(env, EnvConfigKeyPrefixGitea) {
 			k, _, _ := strings.Cut(env, "=")
 			keys = append(keys, k)
 		}
@@ -110,6 +111,20 @@ func decodeEnvironmentKey(prefixGitea, suffixFile, envKey string) (ok bool, sect
 }
 
 func EnvironmentToConfig(cfg ConfigProvider, envs []string) (changed bool) {
+	// Collect GITFX__* key suffixes so we can skip deprecated GITEA__* duplicates
+	gitfxKeys := make(map[string]bool)
+	for _, kv := range envs {
+		before, _, ok := strings.Cut(kv, "=")
+		if !ok {
+			continue
+		}
+		if strings.HasPrefix(before, EnvConfigKeyPrefixGitFX) {
+			// Store the suffix after the prefix so we can detect GITEA__ duplicates
+			suffix := before[len(EnvConfigKeyPrefixGitFX):]
+			gitfxKeys[suffix] = true
+		}
+	}
+
 	for _, kv := range envs {
 		before, after, ok := strings.Cut(kv, "=")
 		if !ok {
@@ -119,9 +134,20 @@ func EnvironmentToConfig(cfg ConfigProvider, envs []string) (changed bool) {
 		// parse the environment variable to config section name and key name
 		envKey := before
 		envValue := after
-		ok, sectionName, keyName, useFileValue := decodeEnvironmentKey(EnvConfigKeyPrefixGitea, EnvConfigKeySuffixFile, envKey)
+
+		// Try GITFX__ prefix first, then fall back to GITEA__ prefix
+		ok, sectionName, keyName, useFileValue := decodeEnvironmentKey(EnvConfigKeyPrefixGitFX, EnvConfigKeySuffixFile, envKey)
 		if !ok {
-			continue
+			ok, sectionName, keyName, useFileValue = decodeEnvironmentKey(EnvConfigKeyPrefixGitea, EnvConfigKeySuffixFile, envKey)
+			if !ok {
+				continue
+			}
+			// Check if there is a GITFX__ equivalent already set; if so, skip this deprecated one
+			giteaSuffix := envKey[len(EnvConfigKeyPrefixGitea):]
+			if gitfxKeys[giteaSuffix] {
+				continue // GITFX__ version takes priority
+			}
+			log.Warn("Environment variable %s is deprecated, use %s%s instead", envKey, EnvConfigKeyPrefixGitFX, giteaSuffix)
 		}
 
 		// use environment value as config value, or read the file content as value if the key indicates a file

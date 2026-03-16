@@ -2,9 +2,9 @@
 // Copyright 2016 The Gitea Authors. All rights reserved.
 // SPDX-License-Identifier: MIT
 
-// Package v1 Gitea API
+// Package v1 GitFX API
 //
-// This documentation describes the Gitea API.
+// This documentation describes the GitFX API.
 //
 //	Schemes: https, http
 //	License: MIT http://opensource.org/licenses/MIT
@@ -859,7 +859,9 @@ func individualPermsChecker(ctx *context.APIContext) {
 // check for and warn against deprecated authentication options
 func checkDeprecatedAuthMethods(ctx *context.APIContext) {
 	if ctx.FormString("token") != "" || ctx.FormString("access_token") != "" {
-		ctx.Resp.Header().Set("X-Gitea-Warning", "token and access_token API authentication is deprecated and will be removed in gitea 1.23. Please use AuthorizationHeaderToken instead. Existing queries will continue to work but without authorization.")
+		deprecMsg := "token and access_token API authentication is deprecated and will be removed in gitea 1.23. Please use AuthorizationHeaderToken instead. Existing queries will continue to work but without authorization."
+		ctx.Resp.Header().Set("X-Gitea-Warning", deprecMsg)
+		ctx.Resp.Header().Set("X-GitFX-Warning", deprecMsg)
 	}
 }
 
@@ -873,7 +875,7 @@ func Routes() *web.Router {
 			AllowedOrigins:   setting.CORSConfig.AllowDomain,
 			AllowedMethods:   setting.CORSConfig.Methods,
 			AllowCredentials: setting.CORSConfig.AllowCredentials,
-			AllowedHeaders:   append([]string{"Authorization", "X-Gitea-OTP"}, setting.CORSConfig.Headers...),
+			AllowedHeaders:   append([]string{"Authorization", "X-Gitea-OTP", "X-GitFX-OTP"}, setting.CORSConfig.Headers...),
 			MaxAge:           int(setting.CORSConfig.MaxAge.Seconds()),
 		}))
 	}

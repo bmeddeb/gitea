@@ -23,13 +23,18 @@ func TestSystemUser(t *testing.T) {
 
 	u, err = GetPossibleUserByID(t.Context(), -2)
 	require.NoError(t, err)
-	assert.Equal(t, "gitea-actions", u.Name)
-	assert.Equal(t, "gitea-actions", u.LowerName)
+	assert.Equal(t, "gitfx-actions", u.Name)
+	assert.Equal(t, "gitfx-actions", u.LowerName)
 	assert.True(t, u.IsGiteaActions())
 
+	u = GetSystemUserByName("GitFX-actionS")
+	require.NotNil(t, u)
+	assert.Equal(t, "GitFX Actions", u.FullName)
+
+	// backward compatibility: old name should still resolve
 	u = GetSystemUserByName("Gitea-actionS")
 	require.NotNil(t, u)
-	assert.Equal(t, "Gitea Actions", u.FullName)
+	assert.Equal(t, "GitFX Actions", u.FullName)
 
 	_, err = GetPossibleUserByID(t.Context(), -3)
 	require.Error(t, err)

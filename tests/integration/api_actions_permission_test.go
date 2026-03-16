@@ -22,7 +22,7 @@ func testActionUserSignIn(t *testing.T) {
 
 	var u api.User
 	DecodeJSON(t, resp, &u)
-	assert.Equal(t, "gitea-actions", u.UserName)
+	assert.Equal(t, "gitfx-actions", u.UserName)
 }
 
 func testActionUserAccessPublicRepo(t *testing.T) {

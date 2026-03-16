@@ -26,8 +26,8 @@ import (
 // CmdDump represents the available dump sub-command.
 var CmdDump = &cli.Command{
 	Name:        "dump",
-	Usage:       "Dump Gitea files and database",
-	Description: `Dump compresses all related files and database into zip file. It can be used for backup and capture Gitea server image to send to maintainer`,
+	Usage:       "Dump GitFX files and database",
+	Description: `Dump compresses all related files and database into zip file. It can be used for backup and capture GitFX server image to send to maintainer`,
 	Action:      runDump,
 	Flags: []cli.Flag{
 		&cli.StringFlag{

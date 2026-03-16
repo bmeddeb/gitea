@@ -34,8 +34,8 @@ func (u *User) IsGhost() bool {
 
 const (
 	ActionsUserID    int64 = -2
-	ActionsUserName        = "gitea-actions"
-	ActionsUserEmail       = "teabot@gitea.io"
+	ActionsUserName        = "gitfx-actions"
+	ActionsUserEmail       = "actions@gitfx.com"
 )
 
 // NewActionsUser creates and returns a fake user for running the actions.
@@ -45,7 +45,7 @@ func NewActionsUser() *User {
 		Name:             ActionsUserName,
 		LowerName:        ActionsUserName,
 		IsActive:         true,
-		FullName:         "Gitea Actions",
+		FullName:         "GitFX Actions",
 		Email:            ActionsUserEmail,
 		KeepEmailPrivate: true,
 		LoginName:        ActionsUserName,
@@ -83,7 +83,7 @@ func GetSystemUserByName(name string) *User {
 	if strings.EqualFold(name, GhostUserName) {
 		return NewGhostUser()
 	}
-	if strings.EqualFold(name, ActionsUserName) {
+	if strings.EqualFold(name, ActionsUserName) || strings.EqualFold(name, "gitea-actions") {
 		return NewActionsUser()
 	}
 	return nil

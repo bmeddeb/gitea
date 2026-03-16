@@ -41,8 +41,8 @@ EOF
 
 export GITEA_WORK_DIR="$WORK_DIR"
 
-# Start Gitea server
-echo "Starting Gitea server on port $FREE_PORT (workdir: $WORK_DIR)..."
+# Start GitFX server
+echo "Starting GitFX server on port $FREE_PORT (workdir: $WORK_DIR)..."
 if [ -n "${GITEA_TEST_E2E_DEBUG:-}" ]; then
   "./$EXECUTABLE" web &
 else
@@ -56,12 +56,12 @@ MAX_WAIT=120
 ELAPSED=0
 while ! curl -sf --max-time 5 "$E2E_URL" > /dev/null 2>&1; do
   if ! kill -0 "$SERVER_PID" 2>/dev/null; then
-    echo "error: Gitea server process exited unexpectedly. Server log:" >&2
+    echo "error: GitFX server process exited unexpectedly. Server log:" >&2
     cat "$WORK_DIR/server.log" 2>/dev/null >&2 || true
     exit 1
   fi
   if [ "$ELAPSED" -ge "$MAX_WAIT" ]; then
-    echo "error: Gitea server not reachable after ${MAX_WAIT}s. Server log:" >&2
+    echo "error: GitFX server not reachable after ${MAX_WAIT}s. Server log:" >&2
     cat "$WORK_DIR/server.log" 2>/dev/null >&2 || true
     exit 1
   fi
@@ -69,9 +69,9 @@ while ! curl -sf --max-time 5 "$E2E_URL" > /dev/null 2>&1; do
   ELAPSED=$((ELAPSED + 2))
 done
 
-echo "Gitea server is ready at $E2E_URL"
+echo "GitFX server is ready at $E2E_URL"
 
-GITEA_TEST_E2E_DOMAIN="e2e.gitea.com"
+GITEA_TEST_E2E_DOMAIN="e2e.gitfx.dev"
 GITEA_TEST_E2E_USER="e2e-admin"
 GITEA_TEST_E2E_PASSWORD="password"
 GITEA_TEST_E2E_EMAIL="$GITEA_TEST_E2E_USER@$GITEA_TEST_E2E_DOMAIN"

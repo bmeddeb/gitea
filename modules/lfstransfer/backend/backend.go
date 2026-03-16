@@ -73,6 +73,7 @@ func (g *GiteaBackend) Batch(_ string, pointers []transfer.BatchItem, args trans
 	headers := map[string]string{
 		headerAuthorization:     g.authToken,
 		headerGiteaInternalAuth: g.internalAuth,
+		headerGitFXInternalAuth: g.internalAuth,
 		headerAccept:            mimeGitLFS,
 		headerContentType:       mimeGitLFS,
 	}
@@ -181,6 +182,7 @@ func (g *GiteaBackend) Download(oid string, args transfer.Args) (_ io.ReadCloser
 	headers := map[string]string{
 		headerAuthorization:     g.authToken,
 		headerGiteaInternalAuth: g.internalAuth,
+		headerGitFXInternalAuth: g.internalAuth,
 		headerAccept:            mimeOctetStream,
 	}
 	req := newInternalRequestLFS(g.ctx, toInternalLFSURL(action.Href), http.MethodGet, headers, nil)
@@ -201,7 +203,11 @@ func (g *GiteaBackend) Download(oid string, args transfer.Args) (_ io.ReadCloser
 		return nil, 0, statusCodeToErr(resp.StatusCode)
 	}
 
-	respSize, err := strconv.ParseInt(resp.Header.Get("X-Gitea-LFS-Content-Length"), 10, 64)
+	lfsContentLength := resp.Header.Get("X-GitFX-LFS-Content-Length")
+	if lfsContentLength == "" {
+		lfsContentLength = resp.Header.Get("X-Gitea-LFS-Content-Length")
+	}
+	respSize, err := strconv.ParseInt(lfsContentLength, 10, 64)
 	if err != nil {
 		return nil, 0, fmt.Errorf("failed to parse content length: %w", err)
 	}
@@ -233,6 +239,7 @@ func (g *GiteaBackend) Upload(oid string, size int64, r io.Reader, args transfer
 	headers := map[string]string{
 		headerAuthorization:     g.authToken,
 		headerGiteaInternalAuth: g.internalAuth,
+		headerGitFXInternalAuth: g.internalAuth,
 		headerContentType:       mimeOctetStream,
 		headerContentLength:     strconv.FormatInt(size, 10),
 	}
@@ -281,6 +288,7 @@ func (g *GiteaBackend) Verify(oid string, size int64, args transfer.Args) (trans
 	headers := map[string]string{
 		headerAuthorization:     g.authToken,
 		headerGiteaInternalAuth: g.internalAuth,
+		headerGitFXInternalAuth: g.internalAuth,
 		headerAccept:            mimeGitLFS,
 		headerContentType:       mimeGitLFS,
 	}

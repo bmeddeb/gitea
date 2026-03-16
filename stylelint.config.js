@@ -4,8 +4,8 @@ import {fileURLToPath} from 'node:url';
 
 const cssVarFiles = [
   fileURLToPath(new URL('web_src/css/base.css', import.meta.url)),
-  fileURLToPath(new URL('web_src/css/themes/theme-gitea-light.css', import.meta.url)),
-  fileURLToPath(new URL('web_src/css/themes/theme-gitea-dark.css', import.meta.url)),
+  fileURLToPath(new URL('web_src/css/themes/theme-gitfx-light.css', import.meta.url)),
+  fileURLToPath(new URL('web_src/css/themes/theme-gitfx-dark.css', import.meta.url)),
 ];
 
 /** @type {import('stylelint').Config} */

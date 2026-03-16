@@ -18,7 +18,7 @@ var globalVars = sync.OnceValue(func() (ret struct {
 },
 ) {
 	ret.namePattern = regexp.MustCompile("(?i)^[A-Z_][A-Z0-9_]*$")
-	ret.forbiddenPrefixPattern = regexp.MustCompile("(?i)^GIT(EA|HUB)_")
+	ret.forbiddenPrefixPattern = regexp.MustCompile("(?i)^GIT(EA|HUB|FX)_")
 	return ret
 })
 

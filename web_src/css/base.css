@@ -762,7 +762,7 @@ tr.top-line-blame:first-of-type {
   border-bottom: 1px solid var(--color-secondary);
 }
 
-.migrate .svg.gitea-git {
+.migrate .svg.gitfx-git {
   color: var(--color-git);
 }
 

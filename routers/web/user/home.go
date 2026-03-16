@@ -690,7 +690,7 @@ func ShowGPGKeys(ctx *context.Context) {
 
 	headers := make(map[string]string)
 	// https://www.rfc-editor.org/rfc/rfc4880
-	headers["Comment"] = "Gitea isn't a key server. The keys are exported as the user uploaded and might not have been fully verified."
+	headers["Comment"] = "GitFX isn't a key server. The keys are exported as the user uploaded and might not have been fully verified."
 	if len(failedEntitiesID) > 0 { // If some key need re-import to be exported
 		headers["Note"] = "The keys with the following IDs couldn't be exported and need to be reuploaded " + strings.Join(failedEntitiesID, ", ")
 	} else if len(entities) == 0 {

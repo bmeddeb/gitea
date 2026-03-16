@@ -31,7 +31,7 @@ var (
 		Enabled:             true,
 		DefaultActionsURL:   defaultActionsURLGitHub,
 		SkipWorkflowStrings: []string{"[skip ci]", "[ci skip]", "[no ci]", "[skip actions]", "[actions skip]"},
-		WorkflowDirs:        []string{".gitea/workflows", ".github/workflows"},
+		WorkflowDirs:        []string{".gitfx/workflows", ".gitea/workflows", ".github/workflows"},
 	}
 )
 

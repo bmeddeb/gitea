@@ -401,6 +401,8 @@ func prepareMigrationTasks() []*migration {
 		newMigration(324, "Fix closed milestone completeness for milestones with no issues", v1_26.FixClosedMilestoneCompleteness),
 		newMigration(325, "Fix missed repo_id when migrate attachments", v1_26.FixMissedRepoIDWhenMigrateAttachments),
 		newMigration(326, "Migrate commit status target URL to use run ID and job ID", v1_26.FixCommitStatusTargetURLToUseRunAndJobID),
+		newMigration(327, "Rename actions system user to gitfx-actions", v1_26.RenameActionsUser),
+		newMigration(328, "Rename user themes from gitea- to gitfx-", v1_26.RenameUserThemesGiteaToGitfx),
 	}
 	return preparedMigrations
 }

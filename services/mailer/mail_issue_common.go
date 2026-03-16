@@ -312,7 +312,9 @@ func generateAdditionalHeadersForIssue(ctx context.Context, comment *mailComment
 	maps.Copy(headers, generateReasonHeaders(reason))
 
 	headers["X-Gitea-Issue-ID"] = issueID
+	headers["X-GitFX-Issue-ID"] = issueID
 	headers["X-Gitea-Issue-Link"] = comment.Issue.HTMLURL(ctx)
+	headers["X-GitFX-Issue-Link"] = comment.Issue.HTMLURL(ctx)
 	headers["X-GitLab-Issue-IID"] = issueID
 
 	return headers

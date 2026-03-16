@@ -24,7 +24,7 @@ withDefaults(defineProps<{
     <SvgIcon name="octicon-stop" class="tw-text-text-light" :size="size" :class="className" v-else-if="status === 'cancelled'"/>
     <SvgIcon name="octicon-circle" class="tw-text-text-light" :size="size" :class="className" v-else-if="status === 'waiting'"/>
     <SvgIcon name="octicon-blocked" class="tw-text-yellow" :size="size" :class="className" v-else-if="status === 'blocked'"/>
-    <SvgIcon name="gitea-running" class="tw-text-yellow" :size="size" :class="'rotate-clockwise ' + className" v-else-if="status === 'running'"/>
+    <SvgIcon name="gitfx-running" class="tw-text-yellow" :size="size" :class="'rotate-clockwise ' + className" v-else-if="status === 'running'"/>
     <SvgIcon name="octicon-x-circle-fill" class="tw-text-red" :size="size" v-else/><!-- failure, unknown -->
   </span>
 </template>

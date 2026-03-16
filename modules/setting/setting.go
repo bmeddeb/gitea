@@ -162,8 +162,19 @@ func loadRunModeFrom(rootCfg ConfigProvider) {
 	// The following is a purposefully undocumented option. Please do not run Gitea as root. It will only cause future headaches.
 	// Please don't use root as a bandaid to "fix" something that is broken, instead the broken thing should instead be fixed properly.
 	unsafeAllowRunAsRoot := ConfigSectionKeyBool(rootSec, "I_AM_BEING_UNSAFE_RUNNING_AS_ROOT")
-	unsafeAllowRunAsRoot = unsafeAllowRunAsRoot || optional.ParseBool(os.Getenv("GITEA_I_AM_BEING_UNSAFE_RUNNING_AS_ROOT")).Value()
-	RunMode = os.Getenv("GITEA_RUN_MODE")
+	if v := os.Getenv("GITFX_I_AM_BEING_UNSAFE_RUNNING_AS_ROOT"); v != "" {
+		unsafeAllowRunAsRoot = unsafeAllowRunAsRoot || optional.ParseBool(v).Value()
+	} else if v := os.Getenv("GITEA_I_AM_BEING_UNSAFE_RUNNING_AS_ROOT"); v != "" {
+		log.Warn("Environment variable GITEA_I_AM_BEING_UNSAFE_RUNNING_AS_ROOT is deprecated, use GITFX_I_AM_BEING_UNSAFE_RUNNING_AS_ROOT instead")
+		unsafeAllowRunAsRoot = unsafeAllowRunAsRoot || optional.ParseBool(v).Value()
+	}
+	RunMode = os.Getenv("GITFX_RUN_MODE")
+	if RunMode == "" {
+		RunMode = os.Getenv("GITEA_RUN_MODE")
+		if RunMode != "" {
+			log.Warn("Environment variable GITEA_RUN_MODE is deprecated, use GITFX_RUN_MODE instead")
+		}
+	}
 	if RunMode == "" {
 		RunMode = rootSec.Key("RUN_MODE").MustString("prod")
 	}
@@ -179,9 +190,9 @@ func loadRunModeFrom(rootCfg ConfigProvider) {
 	if os.Getuid() == 0 {
 		if !unsafeAllowRunAsRoot {
 			// Special thanks to VLC which inspired the wording of this messaging.
-			log.Fatal("Gitea is not supposed to be run as root. Sorry. If you need to use privileged TCP ports please instead use setcap and the `cap_net_bind_service` permission")
+			log.Fatal("GitFX is not supposed to be run as root. Sorry. If you need to use privileged TCP ports please instead use setcap and the `cap_net_bind_service` permission")
 		}
-		log.Critical("You are running Gitea using the root user, and have purposely chosen to skip built-in protections around this. You have been warned against this.")
+		log.Critical("You are running GitFX using the root user, and have purposely chosen to skip built-in protections around this. You have been warned against this.")
 	}
 }
 

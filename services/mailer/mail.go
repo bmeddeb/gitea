@@ -43,7 +43,7 @@ func SendTestMail(email string) error {
 		// No mail service configured
 		return nil
 	}
-	return sender_service.Send(sender, sender_service.NewMessage(email, "Gitea Test Email!", "Gitea Test Email!"))
+	return sender_service.Send(sender, sender_service.NewMessage(email, "GitFX Test Email!", "GitFX Test Email!"))
 }
 
 func sanitizeSubject(subject string) string {
@@ -185,11 +185,14 @@ func generateMetadataHeaders(repo *repo_model.Repository) map[string]string {
 		// https://datatracker.ietf.org/doc/html/rfc2369
 		"List-Archive": fmt.Sprintf("<%s>", repo.HTMLURL()),
 
-		"X-Mailer": "Gitea",
+		"X-Mailer": "GitFX",
 
 		"X-Gitea-Repository":      repo.Name,
+		"X-GitFX-Repository":      repo.Name,
 		"X-Gitea-Repository-Path": repo.FullName(),
+		"X-GitFX-Repository-Path": repo.FullName(),
 		"X-Gitea-Repository-Link": repo.HTMLURL(),
+		"X-GitFX-Repository-Link": repo.HTMLURL(),
 
 		"X-GitLab-Project":      repo.Name,
 		"X-GitLab-Project-Path": repo.FullName(),
@@ -199,8 +202,11 @@ func generateMetadataHeaders(repo *repo_model.Repository) map[string]string {
 func generateSenderRecipientHeaders(doer, recipient *user_model.User) map[string]string {
 	return map[string]string{
 		"X-Gitea-Sender":             doer.Name,
+		"X-GitFX-Sender":             doer.Name,
 		"X-Gitea-Recipient":          recipient.Name,
+		"X-GitFX-Recipient":          recipient.Name,
 		"X-Gitea-Recipient-Address":  recipient.Email,
+		"X-GitFX-Recipient-Address":  recipient.Email,
 		"X-GitHub-Sender":            doer.Name,
 		"X-GitHub-Recipient":         recipient.Name,
 		"X-GitHub-Recipient-Address": recipient.Email,
@@ -210,6 +216,7 @@ func generateSenderRecipientHeaders(doer, recipient *user_model.User) map[string
 func generateReasonHeaders(reason string) map[string]string {
 	return map[string]string{
 		"X-Gitea-Reason":              reason,
+		"X-GitFX-Reason":              reason,
 		"X-GitHub-Reason":             reason,
 		"X-GitLab-NotificationReason": reason,
 	}

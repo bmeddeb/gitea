@@ -8,3 +8,4 @@
 - Before committing any files, remove all trailing whitespace from source code lines
 - Never force-push to pull request branches
 - Always start issue and pull request comments with an authorship attribution
+

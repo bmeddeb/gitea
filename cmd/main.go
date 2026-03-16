@@ -86,9 +86,9 @@ type AppVersion struct {
 
 func NewMainApp(appVer AppVersion) *cli.Command {
 	app := &cli.Command{}
-	app.Name = "gitea" // must be lower-cased because it appears in the "USAGE" section like "gitea doctor [command [command options]]"
+	app.Name = "gitfx" // must be lower-cased because it appears in the "USAGE" section like "gitfx doctor [command [command options]]"
 	app.Usage = "A painless self-hosted Git service"
-	app.Description = `Gitea program contains "web" and other subcommands. If no subcommand is given, it starts the web server by default. Use "web" subcommand for more web server arguments, use other subcommands for other purposes.`
+	app.Description = `GitFX program contains "web" and other subcommands. If no subcommand is given, it starts the web server by default. Use "web" subcommand for more web server arguments, use other subcommands for other purposes.`
 	app.Version = appVer.Version + appVer.Extra
 	app.EnableShellCompletion = true
 	app.Flags = []cli.Flag{
@@ -96,7 +96,7 @@ func NewMainApp(appVer AppVersion) *cli.Command {
 			Name:      "work-path",
 			Aliases:   []string{"w"},
 			TakesFile: true,
-			Usage:     "Set Gitea's working path (defaults to the Gitea's binary directory)",
+			Usage:     "Set GitFX's working path (defaults to the GitFX's binary directory)",
 		},
 		&cli.StringFlag{
 			Name:      "config",
